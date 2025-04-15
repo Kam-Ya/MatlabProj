@@ -22,9 +22,9 @@ function[b, func] = newtonPolyFunction(x, y)
         % Old factor
         xPrevious = xCurrent;
         % New factor = previous new
-        xCurrent = @(xVar) xPrevious(xVar)(xVar - x(k-1));
+        xCurrent = @(xVar) xPrevious(xVar)*(xVar - x(k-1));
         % Incrementally build function
         prevFunc = func; % Store previous terms
-        func = @(xVar) prevFunc(xVar) + finDiffTable(1, k) xCurrent(xVar);
+        func = @(xVar) prevFunc(xVar) + finDiffTable(1, k) * xCurrent(xVar);
     end
 end
