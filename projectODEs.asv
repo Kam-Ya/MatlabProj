@@ -1,0 +1,10 @@
+R1 = 3;
+R2 = 2;
+L2 = 1; %mH
+C = 1; %mF
+Vs = 10*sin(20*pi*t);
+
+% ODEs
+dpi_dt = R1*f(phi1)-Vc+Vs;
+di2_dt = (Vc-R2*i2)/L2;
+dVc_dt = f(phi1)-g(Vc)-
