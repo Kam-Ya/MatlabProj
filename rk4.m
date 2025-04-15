@@ -23,7 +23,7 @@ function [tp, yp] = rk4(dydt, tspan, y0, h, varargin)
         t = tspan;
     end
     tt = ti; 
-    y(1,:) = 0;
+    y(1,:) = y0; % changed from 0
     np = 1;
     t(np) = tt;
     yp(np, :) = y(1,:);
@@ -31,6 +31,7 @@ function [tp, yp] = rk4(dydt, tspan, y0, h, varargin)
 
     while(1)
         tend = t(np + 1);
+        hh = t(np+1) - t(np);
         if hh>h 
             hh = h;
         end
@@ -45,6 +46,7 @@ function [tp, yp] = rk4(dydt, tspan, y0, h, varargin)
         k2 = dydt(tt + hh/2, ymid, varargin{:});
         ymid = y(i,:) + k2*hh/2;
         k3 = dydt(tt + hh/2, ymid, varargin{:});
+        k4 = dydt(tt+hh, yend, varargin{:});
         phi = (ki + 2*(k2 + k3) +k4)/6;
         y(i+1, :) = y(i, :) + phi*hh;
         tt = tt + hh;
