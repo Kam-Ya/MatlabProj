@@ -1,6 +1,6 @@
-function [tp, yp] = rk4(dydt, tspan, y0, h, varargin) 
+function [tp, yp] = rk4[dydt, tspan, y0, h, varargin]
 
-    if nargin < 4 % nargs throws an error 
+    if nargs < 4
         error("minimum of 4 arguments required");
     end
 
@@ -62,4 +62,4 @@ function [tp, yp] = rk4(dydt, tspan, y0, h, varargin)
         break;
     end
     end
-end % added this
+end % added

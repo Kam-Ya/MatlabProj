@@ -3,8 +3,7 @@
 tspan = [0 0.1];
 
 % Define the initial conditions:
-x0 = [0; 0; 0];
-
+x0 = [0; 0; 0];  
 % Solve the ODE system using ode45
 [t, x] = ode45(@circuitODEs, tspan, x0);
 
