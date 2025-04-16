@@ -1,3 +1,5 @@
+clc;
+
 phi = [-3.8, -2.7, -1.3, 0.1, 1.5, 2.5, 3.7];
 Il = [-1.998, -1.982, -1.723, 0.199, 1.811, 1.973, 1.997];
 
@@ -36,15 +38,23 @@ h = 1e-5;
 % calculate rk4 and ode45
 [t_rk4, x_rk4] = rk4sys(@circuitODEs, tspan, x0, h);
 [t45, x45] = ode45(@circuitODEs,tspan, x0);
-Vout = [];
 
-for i = i:x_rk4(:, 2)
-    disp(i);
+% calculate and store the values for Vout across R2
+Vout = [];
+T = [];
+I = [];
+for i = i:length(x_rk4(:, 2))
+    Vout(end + 1) = 2 * x_rk4(i, 2);
+    I(end + 1) = x_rk4(i, 2);
+    T(end + 1) = t_rk4(1, i);
 end
 
-% graph everything
+% calculate fast fourier transform
+fVout = fft(Vout);
+fId = fft(I);
+disp(fVout);
 
-disp(Vout);
+% Interpolation Graphs
 fig1 = figure(1);
 subplot(2, 1, 1);
 plot(x, y);
@@ -58,13 +68,28 @@ title("Interpolation plot for Id");
 xlabel("Voltage (mV");
 ylabel("Current (micro amps)");
 
+% Rk4 and ODE graphs
 fig2 = figure(2);
 subplot(2,1,1);
 plot(t_rk4, x_rk4);
 legend('dphi/dt', 'di/dt', 'dv/dt');
+xlabel("Time");
 title("rk4");
 
 subplot(2,1,2);
 plot(t45, x45);
 legend('dphi/dt', 'di/dt', 'dv/dt');
+xlabel("Time");
 title("ODE45");
+
+% Vout Graphs
+fig3 = figure(3);
+subplot(2, 1, 1);
+plot(T, Vout);
+
+hold on;
+plot(T, I);
+xlabel("Time");
+title("Voltage and Current across resistor R2");
+legend("Vout", "Id");
+hold off;
