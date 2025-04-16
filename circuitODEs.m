@@ -21,14 +21,13 @@ function dxdt = circuitODEs(t, x)
     Id = [-3, 0.2, 0.08, 0.11, 0.5];
     
     % Create a function of phi and Il
-    f_phi1 = newton(phi, Il, phi1);  % for the inductor function
-    g_Vc = newton(V, Id, Vc);       % for the diode characteristic
+    
     
     
     % ODEs
-    dphi1_dt = R1 * f_phi1 - Vc + Vs; % i1 = f_phi1
+    dphi1_dt = R1 * phi1 - Vc + Vs; % i1 = f_phi1
     di2_dt = (Vc - R2 * i2) / L2;
-    dVc_dt = (f_phi1 - g_Vc -i2) / c; % g_(Vc) = iD, newton of 2nd data set
+    dVc_dt = (phi1 - Vc -i2) / c; % g_(Vc) * c = iD, newton of 2nd data set
     
     dxdt = [dphi1_dt; di2_dt; dVc_dt];
 end
