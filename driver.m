@@ -31,7 +31,13 @@ h = 1e-5;
 
 [t_rk4, x_rk4] = rk4sys(@circuitODEs, tspan, x0, h);
 [t45, x45] = ode45(@circuitODEs,tspan, x0);
+Vout = [];
 
+for i = i:x_rk4(:, 2)
+    disp(i);
+end
+
+disp(Vout);
 fig1 = figure(1);
 subplot(2, 1, 1);
 plot(x, y);
@@ -49,7 +55,9 @@ fig2 = figure(2);
 subplot(2,1,1);
 plot(t_rk4, x_rk4);
 legend('dphi/dt', 'di/dt', 'dv/dt');
+title("rk4");
 
 subplot(2,1,2);
 plot(t45, x45);
 legend('dphi/dt', 'di/dt', 'dv/dt');
+title("ODE45");
