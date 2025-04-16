@@ -9,6 +9,7 @@ x = [];
 y2= [];
 x2= [];
 
+% calculate intepolation values of f(phi) from -5 to 5
 for i = -5:1e-5:5
     if abs(i) >= 4
         y(end + 1) = 2 * (i/abs(i));
@@ -19,16 +20,20 @@ for i = -5:1e-5:5
     x(end + 1) = i;
 end
 
+
+% calculate intepolation values of f(Id) from 470 to -150
 for i = -150:20:470
     y2(end + 1) = newton(V, Id, i);
     x2(end + 1) = i;
 
 end
 
+% set up values for RK4
 tspan = [0 2];
 x0 = [0; 0; 0];
 h = 1e-5;
 
+% calculate rk4 and ode45
 [t_rk4, x_rk4] = rk4sys(@circuitODEs, tspan, x0, h);
 [t45, x45] = ode45(@circuitODEs,tspan, x0);
 Vout = [];
@@ -36,6 +41,8 @@ Vout = [];
 for i = i:x_rk4(:, 2)
     disp(i);
 end
+
+% graph everything
 
 disp(Vout);
 fig1 = figure(1);
